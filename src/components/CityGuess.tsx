@@ -4,13 +4,14 @@ import type { NearbyCity } from "../types";
 interface Props {
   cities: NearbyCity[];
   maxGuesses?: number;
+  initialGuesses?: string[];
   onComplete: (guesses: string[], won: boolean) => void;
   onGuess?: (guesses: string[]) => void;
 }
 
-export const CityGuess = ({ cities, maxGuesses = 5, onComplete, onGuess }: Props) => {
+export const CityGuess = ({ cities, maxGuesses = 5, initialGuesses, onComplete, onGuess }: Props) => {
   const [input, setInput] = useState("");
-  const [guesses, setGuesses] = useState<string[]>([]);
+  const [guesses, setGuesses] = useState<string[]>(initialGuesses ?? []);
 
   const answer = cities[0];
   const remaining = maxGuesses - guesses.length;

@@ -3,12 +3,14 @@ import { useState } from "react";
 interface Props {
   answer: number;
   maxGuesses?: number;
+  initialGuesses?: number[];
   onComplete: (guesses: number[], won: boolean) => void;
+  onGuess?: (guesses: number[]) => void;
 }
 
-export const YearGuess = ({ answer, maxGuesses = 5, onComplete }: Props) => {
+export const YearGuess = ({ answer, maxGuesses = 5, initialGuesses, onComplete, onGuess }: Props) => {
   const [input, setInput] = useState("");
-  const [guesses, setGuesses] = useState<number[]>([]);
+  const [guesses, setGuesses] = useState<number[]>(initialGuesses ?? []);
 
   const remaining = maxGuesses - guesses.length;
   const won = guesses.includes(answer);
@@ -21,6 +23,7 @@ export const YearGuess = ({ answer, maxGuesses = 5, onComplete }: Props) => {
     const newGuesses = [...guesses, year];
     setGuesses(newGuesses);
     setInput("");
+    onGuess?.(newGuesses);
     const correct = year === answer;
     if (correct) onComplete(newGuesses, true);
     else if (newGuesses.length >= maxGuesses) onComplete(newGuesses, false);

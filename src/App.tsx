@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { CityGuess } from "./components/CityGuess";
 import { YearGuess } from "./components/YearGuess";
 import { Map } from "./components/Map";
@@ -6,6 +6,7 @@ import { useDailyQuake } from "./hooks/useDailyQuake";
 import type { GamePhase } from "./types";
 import { themes, ThemeMode, getEarthquakeColor } from "./utils/color";
 import { getPuzzleNumber } from "./utils/seed";
+import { loadGameState, saveGameState } from "./utils/storage";
 
 const SITE_URL = "https://quakele.domiko.dev";
 
@@ -14,14 +15,21 @@ interface PhaseResult<T> {
   won: boolean;
 }
 
+const saved = loadGameState();
+
 const App = () => {
   const { earthquake, cities, loading, error } = useDailyQuake();
-  const [phase, setPhase] = useState<GamePhase>("city");
-  const [cityGuesses, setCityGuesses] = useState<string[]>([]);
-  const [cityResult, setCityResult] = useState<PhaseResult<string> | null>(null);
-  const [yearResult, setYearResult] = useState<PhaseResult<number> | null>(null);
+  const [phase, setPhase] = useState<GamePhase>(saved?.phase ?? "city");
+  const [cityGuesses, setCityGuesses] = useState<string[]>(saved?.cityGuesses ?? []);
+  const [cityResult, setCityResult] = useState<PhaseResult<string> | null>(saved?.cityResult ?? null);
+  const [yearGuesses, setYearGuesses] = useState<number[]>(saved?.yearGuesses ?? []);
+  const [yearResult, setYearResult] = useState<PhaseResult<number> | null>(saved?.yearResult ?? null);
   const [copied, setCopied] = useState(false);
   const currentTheme = getEarthquakeColor(earthquake?.magnitude ?? 0);
+
+  useEffect(() => {
+    saveGameState({ phase, cityGuesses, cityResult, yearGuesses, yearResult });
+  }, [phase, cityGuesses, cityResult, yearGuesses, yearResult]);
 
   const handleCityComplete = (guesses: string[], won: boolean) => {
     setCityResult({ guesses, won });
@@ -84,13 +92,23 @@ const App = () => {
           </div>
 
           {phase === "city" && (
-            <CityGuess cities={cities} onComplete={handleCityComplete} onGuess={setCityGuesses} />
+            <CityGuess
+              cities={cities}
+              initialGuesses={saved?.cityGuesses}
+              onComplete={handleCityComplete}
+              onGuess={setCityGuesses}
+            />
           )}
 
           {phase === "year" && (
             <>
               <p className="phase-banner">City found — now guess the year</p>
-              <YearGuess answer={earthquake.year} onComplete={handleYearComplete} />
+              <YearGuess
+                answer={earthquake.year}
+                initialGuesses={saved?.yearGuesses}
+                onComplete={handleYearComplete}
+                onGuess={setYearGuesses}
+              />
             </>
           )}
 
@@ -101,7 +119,7 @@ const App = () => {
                 You got it!
                 </p>
               )}
-              <a 
+              <a
               href={`https://earthquake.usgs.gov/earthquakes/eventpage/${earthquake.id}/executive`}
               style={{ textDecoration: "none" }}
               >
