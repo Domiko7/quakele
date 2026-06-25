@@ -121,7 +121,7 @@ const App = () => {
               )}
               <a
               href={`https://earthquake.usgs.gov/earthquakes/eventpage/${earthquake.id}/executive`}
-              style={{ textDecoration: "none" }}
+              className="link"
               >
                 <p style={{ textAlign: "center", color: "var(--muted)", fontSize: "0.875rem" }}>
                   {earthquake.place} — {earthquake.year}
@@ -135,6 +135,14 @@ const App = () => {
         </>
       )}
       <Map cities={cities} cityGuesses={cityGuesses} phase={phase} earthquake={earthquake} />
+
+      <footer className="footer">
+        <a href="https://github.com/Domiko7/quakele" target="_blank" rel="noreferrer" className="link">
+          GitHub
+        </a>
+        <span className="footer-sep">·</span>
+        <span>Made with love</span>
+      </footer>
     </div>
   );
 };
