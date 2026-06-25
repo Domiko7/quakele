@@ -141,7 +141,7 @@ const App = () => {
           GitHub
         </a>
         <span className="footer-sep">·</span>
-        <span>Made with love</span>
+        <span>Made with ❤️</span>
       </footer>
     </div>
   );
