@@ -71,6 +71,14 @@ const App = () => {
     setTimeout(() => setCopied(false), 2000);
   };
 
+  const getDepthPhrase = (depth: number): { pre?: string; post?: string } => {
+    if (depth <= 15) return { pre: "very shallow" };
+    if (depth <= 40) return { pre: "shallow" };
+    if (depth <= 150) return { post: "of intermediate depth" };
+    if (depth <= 300) return { pre: "deep" };
+    return { pre: "very deep" };
+  };
+
   return (
     <div style={themes[currentTheme]} className="page">
       <header className="header">
@@ -86,8 +94,10 @@ const App = () => {
           <div className="clue-card">
             <div className="mag-badge">M{earthquake.magnitude.toFixed(1)}</div>
             <p className="clue-text">
-              A <strong>magnitude {earthquake.magnitude.toFixed(1)}</strong> earthquake
-              struck somewhere on Earth. Guess the nearest major city, then the year.
+              {(() => {
+                const { pre, post } = getDepthPhrase(earthquake.depthKm);
+                return <>A <strong>{pre && `${pre} `}magnitude {earthquake.magnitude.toFixed(1)}</strong> earthquake{post && <> <strong>{post}</strong></>} struck somewhere on Earth. Guess the nearest major city, then the year.</>;
+              })()}
             </p>
           </div>
 
