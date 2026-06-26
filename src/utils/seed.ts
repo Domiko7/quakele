@@ -10,9 +10,9 @@ const mulberry32 = (seed: number) => {
 
 export const getDailySeed = (): number => {
   const now = new Date();
-  const y = now.getUTCFullYear();
-  const m = String(now.getUTCMonth() + 1).padStart(2, "0");
-  const d = String(now.getUTCDate()).padStart(2, "0");
+  const y = now.getFullYear();
+  const m = String(now.getMonth() + 1).padStart(2, "0");
+  const d = String(now.getDate()).padStart(2, "0");
   return parseInt(`${y}${m}${d}`, 10);
 };
 
@@ -22,9 +22,9 @@ export const seededPick = <T>(arr: T[], seed: number): T => {
 };
 
 export const getPuzzleNumber = (): number => {
-  const epoch = Date.UTC(2026, 5, 24);
+  const epoch = new Date(2026, 5, 24).setHours(0, 0, 0, 0);
   const now = new Date();
-  const today = Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate());
+  const today = new Date(now.getFullYear(), now.getMonth(), now.getDate()).getTime();
   return Math.floor((today - epoch) / 86400000) + 1;
 };
 
