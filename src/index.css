@@ -92,6 +92,10 @@ body {
   font-weight: 600;
 }
 
+.clue-depth {
+  color: #888;
+}
+
 .section-card {
   background: var(--surface);
   border: 1px solid var(--border);
