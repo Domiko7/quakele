@@ -27,4 +27,3 @@ export const getPuzzleNumber = (): number => {
   const today = new Date(now.getFullYear(), now.getMonth(), now.getDate()).getTime();
   return Math.floor((today - epoch) / 86400000) + 1;
 };
-

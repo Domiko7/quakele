@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import type { NearbyCity } from "../types";
 
 interface Props {
@@ -14,6 +14,21 @@ export const CityGuess = ({ cities, maxGuesses = 5, initialGuesses, onComplete, 
   const [guesses, setGuesses] = useState<string[]>(initialGuesses ?? []);
 
   const answer = cities[0];
+  const cityOptions = useMemo(() => {
+    const shuffled = [...cities];
+
+    for (let i = shuffled.length - 1; i > 0; i -= 1) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+    }
+
+    // The source list is distance-sorted, so never expose its first item first.
+    if (shuffled.length > 1 && shuffled[0] === answer) {
+      [shuffled[0], shuffled[1]] = [shuffled[1], shuffled[0]];
+    }
+
+    return shuffled;
+  }, [cities, answer]);
   const remaining = maxGuesses - guesses.length;
   const won = guesses.some((g) => g.toLowerCase() === answer.name.toLowerCase());
   const lost = !won && remaining <= 0;
@@ -46,7 +61,7 @@ export const CityGuess = ({ cities, maxGuesses = 5, initialGuesses, onComplete, 
           autoComplete="off"
         />
         <datalist id="city-options">
-          {cities.map((c) => (
+          {cityOptions.map((c) => (
             <option key={c.name} value={c.name} />
           ))}
         </datalist>
