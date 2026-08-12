@@ -22,7 +22,6 @@ export const CityGuess = ({ cities, maxGuesses = 5, initialGuesses, onComplete, 
       [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
     }
 
-    // The source list is distance-sorted, so never expose its first item first.
     if (shuffled.length > 1 && shuffled[0] === answer) {
       [shuffled[0], shuffled[1]] = [shuffled[1], shuffled[0]];
     }
