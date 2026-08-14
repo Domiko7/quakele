@@ -1,18 +1,40 @@
 import { getPuzzleNumber } from "./seed";
 import type { GamePhase } from "../types";
 
+interface PhaseResult<T> {
+  guesses: T[];
+  won: boolean;
+}
+
 export interface SavedState {
   puzzleNumber: number;
   phase: GamePhase;
   cityGuesses: string[];
-  cityResult: { guesses: string[]; won: boolean } | null;
+  cityResult: PhaseResult<string> | null;
   yearGuesses: number[];
-  yearResult: { guesses: number[]; won: boolean } | null;
+  yearResult: PhaseResult<number> | null;
 }
+
+export interface PlayerStats {
+  currentStreak: number;
+  longestStreak: number;
+  completedPuzzleNumbers: number[];
+  attemptedPuzzleNumbers: number[];
+}
+
+const GAME_STATE_KEY = "state";
+const PLAYER_STATS_KEY = "stats";
+
+const createDefaultPlayerStats = (): PlayerStats => ({
+  currentStreak: 0,
+  longestStreak: 0,
+  completedPuzzleNumbers: [],
+  attemptedPuzzleNumbers: [],
+});
 
 export const loadGameState = (): SavedState | null => {
   try {
-    const raw = localStorage.getItem("state");
+    const raw = localStorage.getItem(GAME_STATE_KEY);
     if (!raw) return null;
     const saved: SavedState = JSON.parse(raw);
     if (saved.puzzleNumber !== getPuzzleNumber()) return null;
@@ -24,6 +46,59 @@ export const loadGameState = (): SavedState | null => {
 
 export const saveGameState = (state: Omit<SavedState, "puzzleNumber">) => {
   try {
-    localStorage.setItem("state", JSON.stringify({ ...state, puzzleNumber: getPuzzleNumber() }));
+    localStorage.setItem(GAME_STATE_KEY, JSON.stringify({ ...state, puzzleNumber: getPuzzleNumber() }));
   } catch {}
+};
+
+export const loadPlayerStats = (): PlayerStats => {
+  try {
+    const raw = localStorage.getItem(PLAYER_STATS_KEY);
+    if (!raw) return createDefaultPlayerStats();
+    const saved = JSON.parse(raw) as Partial<PlayerStats>;
+    return {
+      currentStreak: saved.currentStreak ?? 0,
+      longestStreak: saved.longestStreak ?? 0,
+      completedPuzzleNumbers: saved.completedPuzzleNumbers ?? [],
+      attemptedPuzzleNumbers: saved.attemptedPuzzleNumbers ?? [],
+    };
+  } catch {
+    return createDefaultPlayerStats();
+  }
+};
+
+export const savePlayerStats = (stats: PlayerStats) => {
+  try {
+    localStorage.setItem(PLAYER_STATS_KEY, JSON.stringify(stats));
+  } catch {}
+};
+
+export const recordDailyResult = (won: boolean): PlayerStats => {
+  const puzzleNumber = getPuzzleNumber();
+  const stats = loadPlayerStats();
+
+  // A daily puzzle should affect the player's stats only once.
+  if (stats.attemptedPuzzleNumbers.includes(puzzleNumber)) return stats;
+
+  const attemptedPuzzleNumbers = [...stats.attemptedPuzzleNumbers, puzzleNumber]
+    .sort((a, b) => a - b);
+  const completedPuzzleNumbers = won
+    ? [...new Set([...stats.completedPuzzleNumbers, puzzleNumber])].sort((a, b) => a - b)
+    : stats.completedPuzzleNumbers;
+
+  let currentStreak = 0;
+  if (won) {
+    const completed = new Set(completedPuzzleNumbers);
+    for (let puzzle = puzzleNumber; completed.has(puzzle); puzzle -= 1) {
+      currentStreak += 1;
+    }
+  }
+
+  const updated: PlayerStats = {
+    currentStreak,
+    longestStreak: Math.max(stats.longestStreak, currentStreak),
+    completedPuzzleNumbers,
+    attemptedPuzzleNumbers,
+  };
+  savePlayerStats(updated);
+  return updated;
 };
