@@ -75,18 +75,19 @@ export const savePlayerStats = (stats: PlayerStats) => {
 export const recordDailyResult = (won: boolean): PlayerStats => {
   const puzzleNumber = getPuzzleNumber();
   const stats = loadPlayerStats();
+  const wasAttempted = stats.attemptedPuzzleNumbers.includes(puzzleNumber);
+  const wasCompleted = stats.completedPuzzleNumbers.includes(puzzleNumber);
 
-  // A daily puzzle should affect the player's stats only once.
-  if (stats.attemptedPuzzleNumbers.includes(puzzleNumber)) return stats;
+  if (wasAttempted && (!won || wasCompleted)) return stats;
 
-  const attemptedPuzzleNumbers = [...stats.attemptedPuzzleNumbers, puzzleNumber]
+  const attemptedPuzzleNumbers = [...new Set([...stats.attemptedPuzzleNumbers, puzzleNumber])]
     .sort((a, b) => a - b);
-  const completedPuzzleNumbers = won
+  const completedPuzzleNumbers = won || wasCompleted
     ? [...new Set([...stats.completedPuzzleNumbers, puzzleNumber])].sort((a, b) => a - b)
     : stats.completedPuzzleNumbers;
 
   let currentStreak = 0;
-  if (won) {
+  if (completedPuzzleNumbers.includes(puzzleNumber)) {
     const completed = new Set(completedPuzzleNumbers);
     for (let puzzle = puzzleNumber; completed.has(puzzle); puzzle -= 1) {
       currentStreak += 1;
