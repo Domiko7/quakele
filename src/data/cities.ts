@@ -1,5 +1,6 @@
 import type { WorldCity } from "../types";
 
+// lol I will use a db in the future I just wanted something fast and good 
 export const WORLD_CITIES: WorldCity[] = [
   { name: "Tokyo",                    country: "Japan",              lat:  35.6762, lon:  139.6503 },
   { name: "Yokohama",                 country: "Japan",              lat:  35.4437, lon:  139.6380 },

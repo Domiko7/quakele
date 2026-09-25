@@ -37,3 +37,23 @@ export interface NearbyCity extends WorldCity {
 }
 
 export type GamePhase = "city" | "year" | "done";
+
+export interface FocalMechanism {
+  strike: number;
+  dip: number;
+  rake: number;
+}
+
+export interface Vector3D {
+  x: number;
+  y: number;
+  z: number;
+}
+
+export type FocalMechanismType =
+  | "Strike-Slip"
+  | "Normal"
+  | "Reverse / Thrust"
+  | "Normal-Oblique"
+  | "Reverse-Oblique"
+  | "Undefined";

@@ -112,14 +112,14 @@ const copyResults = async (isPractice: boolean) => {
       <CityGuess v-if="phase === 'city'" :key="`city-${roundKey}`" :cities="cities" :initial-guesses="isPractice ? [] : saved?.cityGuesses" @complete="completeCity" @guess="cityGuesses = $event" />
 
       <template v-if="phase === 'year'">
-        <p class="phase-banner">City found — now guess the year</p>
+        <p class="phase-banner">City found - now guess the year</p>
         <YearGuess :key="`year-${roundKey}`" :answer="earthquake.year" :initial-guesses="isPractice ? [] : saved?.yearGuesses" @complete="completeYear" @guess="yearGuesses = $event" />
       </template>
 
       <div v-if="phase === 'done'" class="section-card">
         <p v-if="cityResult?.won && yearResult?.won" class="done-message">You got it!</p>
         <a :href="`https://earthquake.usgs.gov/earthquakes/eventpage/${earthquake.id}/executive`" class="link">
-          <p class="done-place-link">{{ earthquake.place }} — {{ earthquake.year }}</p>
+          <p class="done-place-link">{{ earthquake.place }} - {{ earthquake.year }}</p>
         </a>
         <button v-if="!isPractice" class="copy-btn" @click="copyResults(false)">{{ copied ? "Copied!" : "Share results" }}</button>
         <button v-else class="copy-btn" @click="copyResults(true)">{{ copied ? "Copied!" : "Share results" }}></button>

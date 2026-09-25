@@ -3,8 +3,9 @@ import { ref } from "vue";
 import QuakeleGame from "./components/QuakeleGame.vue";
 import QuakeleHeader from "./components/QuakeleHeader.vue";
 import Stats from "./components/Stats.vue";
+import Learn from "./components/Learn.vue";
 
-type Screen = "home" | "game" | "stats";
+type Screen = "home" | "game" | "stats" | "learn";
 
 const screen = ref<Screen>("home");
 </script>
@@ -24,6 +25,15 @@ const screen = ref<Screen>("home");
           </span>
           <span class="game-card-action">Play <span aria-hidden="true">→</span></span>
         </button>
+        <button class="game-card" type="button" @click="screen = 'learn'">
+          <span class="game-card-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="M240-80q-33 0-56.5-23.5T160-160v-640q0-33 23.5-56.5T240-880h480q33 0 56.5 23.5T800-800v640q0 33-23.5 56.5T720-80H240Zm0-80h480v-640h-80v280l-100-60-100 60v-280H240v640Zm0 0v-640 640Zm200-360 100-60 100 60-100-60-100 60Z"/></svg></span>
+          <span class="game-card-content">
+            <span class="game-card-title">LEARN</span>
+            <span class="game-card-description">Learn some seismology stuff in a fun way!</span>
+            <span class="game-card-meta">Learn</span>
+          </span>
+          <span class="game-card-action">Play <span aria-hidden="true">→</span></span>
+        </button>
         <button class="game-card" type="button" @click="screen = 'stats'">
           <span class="game-card-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="M395-475q-35-35-35-85t35-85q35-35 85-35t85 35q35 35 35 85t-35 85q-35 35-85 35t-85-35ZM240-40v-309q-38-42-59-96t-21-115q0-134 93-227t227-93q134 0 227 93t93 227q0 61-21 115t-59 96v309l-240-80-240 80Zm410-350q70-70 70-170t-70-170q-70-70-170-70t-170 70q-70 70-70 170t70 170q70 70 170 70t170-70ZM320-159l160-41 160 41v-124q-35 20-75.5 31.5T480-240q-44 0-84.5-11.5T320-283v124Zm160-62Z"/></svg></span>
           <span class="game-card-content">
@@ -37,6 +47,7 @@ const screen = ref<Screen>("home");
     </template>
 
     <QuakeleGame v-else-if="screen === 'game'" />
+    <Learn v-else-if="screen === 'learn'" />
     <Stats v-else />
 
     <footer class="footer">

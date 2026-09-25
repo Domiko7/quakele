@@ -34,7 +34,7 @@ const lost = computed(() => !won.value && remaining.value <= 0);
 const hintFor = (guess: string) => {
   const match = props.cities.find((city) => city.name.toLowerCase() === guess.toLowerCase());
   if (guess.toLowerCase() === answer.value.name.toLowerCase()) return `${answer.value.distanceKm.toLocaleString()} km from epicenter`;
-  return match ? `${match.distanceKm.toLocaleString()} km — try closer` : "not in today's city list";
+  return match ? `${match.distanceKm.toLocaleString()} km - try closer` : "not in today's city list";
 };
 
 const submit = () => {
@@ -66,7 +66,7 @@ const submit = () => {
       </li>
     </ul>
     <div v-if="won" class="result-banner success">
-      {{ answer.name }}, {{ answer.country }} — {{ answer.distanceKm.toLocaleString() }} km from the epicenter
+      {{ answer.name }}, {{ answer.country }} - {{ answer.distanceKm.toLocaleString() }} km from the epicenter
     </div>
     <div v-if="lost" class="result-banner failure">
       The nearest city was <strong>{{ answer.name }}, {{ answer.country }}</strong> ({{ answer.distanceKm.toLocaleString() }} km)

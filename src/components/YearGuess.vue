@@ -54,7 +54,7 @@ const submit = () => {
         <span class="guess-hint">{{ temperature(guess).label }}</span>
       </li>
     </ul>
-    <div v-if="won" class="result-banner success">Correct — the earthquake was in {{ answer }}</div>
+    <div v-if="won" class="result-banner success">Correct - the earthquake was in {{ answer }}</div>
     <div v-if="lost" class="result-banner failure">The answer was <strong>{{ answer }}</strong></div>
   </div>
 </template>

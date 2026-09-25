@@ -306,14 +306,30 @@ body {
   font-size: 0.9rem;
 }
 
-.guess-item.correct           { border-left-color: var(--green);   }
-.guess-item.wrong             { border-left-color: var(--red);     }
-.guess-item.temp-scorching    { border-left-color: #ff2200;        }
-.guess-item.temp-hot          { border-left-color: #ff6600;        }
-.guess-item.temp-warm         { border-left-color: var(--warm);    }
-.guess-item.temp-cold         { border-left-color: #60a5fa;        }
-.guess-item.temp-very-cold    { border-left-color: #3b82f6;        }
-.guess-item.temp-freezing     { border-left-color: #1d4ed8;        }
+.guess-item.correct { 
+  border-left-color: var(--green);
+}
+.guess-item.wrong {
+  border-left-color: var(--red);
+}
+.guess-item.temp-scorching {
+  border-left-color: #ff2200;
+}
+.guess-item.temp-hot {
+  border-left-color: #ff6600;
+}
+.guess-item.temp-warm { 
+  border-left-color: var(--warm);
+}
+.guess-item.temp-cold { 
+  border-left-color: #60a5fa;
+}
+.guess-item.temp-very-cold {
+  border-left-color: #3b82f6;
+}
+.guess-item.temp-freezing { 
+  border-left-color: #1d4ed8;
+}
 
 .guess-name {
   flex: 1;
@@ -335,15 +351,14 @@ body {
   line-height: 1.5;
 }
 
+/*TODO: Investigate why these 2 are sometimes displayed differently*/
 .result-banner.success {
   background: rgba(74, 222, 128, 0.07);
-  border: 1px solid rgba(74, 222, 128, 0.22);
   color: var(--green);
 }
 
 .result-banner.failure {
   background: rgba(248, 113, 113, 0.07);
-  border: 1px solid rgba(248, 113, 113, 0.22);
   color: var(--red);
 }
 
