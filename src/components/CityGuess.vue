@@ -52,7 +52,7 @@ const submit = () => {
   <div class="section-card">
     <p class="section-label">City</p>
     <form class="input-row" @submit.prevent="submit">
-      <input v-model="input" class="guess-input" list="city-options" placeholder="Nearest major city…" :disabled="won || lost" autocomplete="off">
+      <input v-model="input" class="guess-input" list="city-options" placeholder="Nearest major city..." :disabled="won || lost" autocomplete="off">
       <datalist id="city-options">
         <option v-for="city in cityOptions" :key="city.name" :value="city.name" />
       </datalist>

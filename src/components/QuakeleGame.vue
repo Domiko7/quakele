@@ -100,7 +100,7 @@ const copyResults = async (isPractice: boolean) => {
 
 <template>
   <main class="game-view" :style="theme">
-    <p v-if="loading" class="status">Loading today's earthquake…</p>
+    <p v-if="loading" class="status">Loading today's earthquake...</p>
     <p v-if="error" class="status">Error: {{ error }}</p>
 
     <template v-if="earthquake">
@@ -112,7 +112,9 @@ const copyResults = async (isPractice: boolean) => {
       <CityGuess v-if="phase === 'city'" :key="`city-${roundKey}`" :cities="cities" :initial-guesses="isPractice ? [] : saved?.cityGuesses" @complete="completeCity" @guess="cityGuesses = $event" />
 
       <template v-if="phase === 'year'">
-        <p class="phase-banner">City found - now guess the year</p>
+        <div class="result-banner success">
+          City found - now guess the year
+        </div>
         <YearGuess :key="`year-${roundKey}`" :answer="earthquake.year" :initial-guesses="isPractice ? [] : saved?.yearGuesses" @complete="completeYear" @guess="yearGuesses = $event" />
       </template>
 

@@ -39,26 +39,31 @@ const restart = () => {
 </script>
 
 <template>
-  <form class="input-row" @submit.prevent="submit">
-    <input v-model="input" class="guess-input" list="fm-options" placeholder="Focal Mechanism…" :disabled="won || lost" autocomplete="off">
-    <datalist id="fm-options">
-      <option v-for="mechanism in mechanismOptions" :key="mechanism" :value="mechanism" />
-    </datalist>
-    <button class="guess-btn" type="submit" :disabled="won || lost">Enter</button>
-  </form>
-
-  <BeachBall 
-    :strike="randomFocalMechanism.strike" 
-    :dip="randomFocalMechanism.dip" 
-    :rake="randomFocalMechanism.rake" 
-    :size="300" 
-  />
+  <div class="section-card">
+    <p class="section-label">Focal mechanism type</p>
+    <form class="input-row" @submit.prevent="submit">
+      <input v-model="input" class="guess-input" list="fm-options" placeholder="I think it's..." :disabled="won || lost" autocomplete="off">
+      <datalist id="fm-options">
+        <option v-for="mechanism in mechanismOptions" :key="mechanism" :value="mechanism" />
+      </datalist>
+      <button class="guess-btn" type="submit" :disabled="won || lost">Enter</button>
+    </form>
+  </div>
 
   <div v-if="won" class="result-banner success">
     Success! The answer is {{ answer }}
   </div>
   <div v-if="lost" class="result-banner failure">
     Nope! The answer is {{ answer }}
+  </div>
+
+  <div class="section-card-2">
+    <BeachBall 
+      :strike="randomFocalMechanism.strike" 
+      :dip="randomFocalMechanism.dip" 
+      :rake="randomFocalMechanism.rake" 
+      :size="300"
+    />
   </div>
 
   <button v-if="won || lost" class="restart-btn" @click="restart">
