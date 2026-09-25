@@ -18,6 +18,3 @@ bun dev # starts an http server
 bun run build   # production build
 bun preview     # serve the production build
 ```
-
-> [!WARNING]
-> Some people might wonder why the quake is picked up in frontend, the reason for that is, the servers are quite poor and I don't plan on having the backend be turned  forever so I try to keep as many features as possible in the frontend.
