@@ -456,7 +456,7 @@ body {
   margin-bottom: 1.25rem;
 }
 
-.practice-btn {
+.practice-btn, .restart-btn {
   width: 100%;
   background: var(--accent);
   border: none;
@@ -467,6 +467,7 @@ body {
   font-weight: 700;
   padding: 0.75rem 1rem;
   transition: opacity 0.15s, transform 0.1s;
+  margin-top: 1rem;
 }
 
 .practice-btn:hover {

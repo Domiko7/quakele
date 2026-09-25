@@ -4,8 +4,8 @@ import BeachBall from "./BeachBall.vue";
 import { randomizeFocalMechanism, identifyFocalMechanism } from "../data/focalMechanisms.ts";
 import { FocalMechanismType } from "../types.ts";
 
-const randomFocalMechanism = randomizeFocalMechanism();
-const answer = identifyFocalMechanism(randomFocalMechanism);
+const randomFocalMechanism = ref(randomizeFocalMechanism());
+const answer = ref(identifyFocalMechanism(randomFocalMechanism.value));
 
 const input = ref("");
 const won = ref(false);
@@ -22,11 +22,19 @@ const mechanismOptions = [
 const submit = () => {
   if (!input.value.trim() || won.value || lost.value) return;
 
-  if (input.value.trim() === answer) {
+  if (input.value.trim() === answer.value) {
     won.value = true;
   } else {
     lost.value = true;
   }
+};
+
+const restart = () => {
+  randomFocalMechanism.value = randomizeFocalMechanism();
+  answer.value = identifyFocalMechanism(randomFocalMechanism.value);
+  input.value = "";
+  won.value = false;
+  lost.value = false;
 };
 </script>
 
@@ -52,4 +60,8 @@ const submit = () => {
   <div v-if="lost" class="result-banner failure">
     Nope! The answer is {{ answer }}
   </div>
+
+  <button v-if="won || lost" class="restart-btn" @click="restart">
+    Play Again
+  </button>
 </template>
