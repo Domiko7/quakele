@@ -83,12 +83,13 @@ const drawBeachBall = () => {
   ctx.lineWidth = 2.5;
   ctx.stroke();
 
-  ctx.beginPath();
-  ctx.moveTo(centerX, centerY - radius);
-  ctx.lineTo(centerX, centerY - radius + 8);
-  ctx.strokeStyle = "#000000";
-  ctx.lineWidth = 2;
-  ctx.stroke();
+  // the north indicator is annoying tbh
+  //ctx.beginPath();
+  //ctx.moveTo(centerX, centerY - radius);
+  //ctx.lineTo(centerX, centerY - radius + 8);
+  //ctx.strokeStyle = "#000000";
+  //ctx.lineWidth = 2;
+  //ctx.stroke();
 };
 
 const hexToRgb = (hex: string): { r: number; g: number; b: number } => {
