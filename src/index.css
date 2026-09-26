@@ -182,7 +182,6 @@ body {
   display: flex;
   align-items: center;
   gap: 1.25rem;
-  margin: 0.85rem 0;
 }
 
 .mag-badge {

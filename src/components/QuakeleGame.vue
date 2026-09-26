@@ -112,7 +112,7 @@ const copyResults = async (isPractice: boolean) => {
       <CityGuess v-if="phase === 'city'" :key="`city-${roundKey}`" :cities="cities" :initial-guesses="isPractice ? [] : saved?.cityGuesses" @complete="completeCity" @guess="cityGuesses = $event" />
 
       <template v-if="phase === 'year'">
-        <div class="result-banner success">
+        <div class="result-banner success" :style="{ marginTop: '0.85rem' }">
           City found - now guess the year
         </div>
         <YearGuess :key="`year-${roundKey}`" :answer="earthquake.year" :initial-guesses="isPractice ? [] : saved?.yearGuesses" @complete="completeYear" @guess="yearGuesses = $event" />
