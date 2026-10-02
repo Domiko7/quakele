@@ -438,8 +438,12 @@ body {
   margin-top: 1rem;
 }
 
-.copy-btn:hover  { opacity: 0.85; }
-.copy-btn:active { transform: scale(0.97); }
+.copy-btn:hover {
+  opacity: 0.85;
+}
+.copy-btn:active {
+  transform: scale(0.97);
+}
 
 .footer {
   margin-top: auto;
@@ -691,4 +695,71 @@ body {
 
 .link:hover {
   color: var(--accent);
+}
+.blur {
+  filter: blur(4px);
+  pointer-events: none; 
+  transition: filter 1s ease;
+}
+
+.anniversary-notice {
+  position: fixed;
+  inset: 0;
+  margin: auto;
+  z-index: 300;
+  width: min(36rem, 100% - 2.5rem);
+  height: fit-content;
+  max-height: calc(100vh - 2.5rem);
+  overflow-y: auto;
+  background: rgba(237, 237, 237);
+  border-radius: 14px;
+  border-width: 1px;
+  border-color: #000000;
+  border-style: solid;
+  padding: 2.5rem 2.5rem 2rem;
+  text-align: center;
+  color: #1a1a1a;
+}
+
+.anniversary-notice-title {
+  display: block;
+  font-size: 1.5rem;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 1rem
+}
+
+.anniversary-notice-description {
+  display: block;
+  font-size: 0.9rem;
+  font-weight: 100;
+  text-align: center;
+  margin-bottom: 0.5rem
+} 
+
+.notice-btn {
+  width: 20%;
+  background: var(--accent);
+  border: none;
+  border-radius: 8px;
+  color: #fff;
+  cursor: pointer;
+  font-size: 0.875rem;
+  font-weight: 700;
+  padding: 0.75rem 1rem;
+  transition: opacity 0.15s, transform 0.1s;
+  margin-top: 1rem;
+  gap: 0.75rem;
+}
+
+.notice-btn:hover {
+  opacity: 0.85;
+}
+
+.notice-btn:active {
+  transform: scale(0.97);
+}
+
+.notice-btn-description {
+  font-weight: 100;
 }

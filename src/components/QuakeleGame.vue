@@ -8,6 +8,7 @@ import type { GamePhase } from "../types";
 import { themes, getEarthquakeColor } from "../utils/color";
 import { getPuzzleNumber } from "../utils/seed";
 import { loadGameState, recordDailyResult, saveGameState } from "../utils/storage";
+import confetti from "canvas-confetti";
 
 
 interface PhaseResult<T> { guesses: T[]; won: boolean }
@@ -58,10 +59,30 @@ const completeCity = (guesses: string[], won: boolean) => {
   if (!won && !isPractice.value) recordDailyResult(false);
 };
 
+const executeConfetti = () => {
+  const count = 200;
+  const defaults = { origin: { y: 0.5 } };
+
+  function fire(particleRatio: number, opts: confetti.Options) {
+    confetti({
+      ...defaults,
+      ...opts,
+      particleCount: Math.floor(count * particleRatio)
+    });
+  }
+
+  fire(0.25, { spread: 26, startVelocity: 55 });
+  fire(0.2, { spread: 60 });
+  fire(0.35, { spread: 100, decay: 0.91, scalar: 0.8 });
+  fire(0.1, { spread: 120, startVelocity: 25, decay: 0.92, scalar: 1.2 });
+  fire(0.1, { spread: 120, startVelocity: 45 });
+};
+
 const completeYear = (guesses: number[], won: boolean) => {
   yearResult.value = { guesses, won };
   phase.value = "done";
   if (!isPractice.value) recordDailyResult(won);
+  if (won) executeConfetti();
 };
 
 const depthPhrase = (depth: number) => depth <= 15
