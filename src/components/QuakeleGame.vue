@@ -61,7 +61,7 @@ const completeCity = (guesses: string[], won: boolean) => {
 
 const executeConfetti = () => {
   const count = 200;
-  const defaults = { origin: { y: 0.5 } };
+  const defaults = { origin: { y: 0.4 } };
 
   function fire(particleRatio: number, opts: confetti.Options) {
     confetti({

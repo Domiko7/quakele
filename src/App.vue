@@ -13,7 +13,7 @@ const notice = ref<boolean>(true);
 
 onMounted(() => {
   const count = 300;
-  const defaults = { origin: { y: 0.5 } };
+  const defaults = { origin: { y: 0.6 } };
 
   function fire(particleRatio: number, opts: confetti.Options) {
     confetti({
