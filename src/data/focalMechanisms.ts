@@ -58,32 +58,25 @@ export const stereographicToUnitVector = (x: number, y: number): Vector3D | null
   };
 };
 
-export const identifyFocalMechanism = (focalMechanism: FocalMechanism): FocalMechanismType => {
-  let normalizedRake = focalMechanism.rake % 360;
-  if (normalizedRake > 180) normalizedRake -= 360;
-  if (normalizedRake < -180) normalizedRake += 360;
+export const identifyFocalMechanism = (fm: FocalMechanism): FocalMechanismType => {
+  const dipRad = (fm.dip * Math.PI) / 180;
+  const rakeRad = (fm.rake * Math.PI) / 180;
 
-  const absRake = Math.abs(normalizedRake);
+  const sinPlungeP = (Math.sin(dipRad) * Math.sin(rakeRad) - Math.cos(dipRad)) / Math.SQRT2;
+  const sinPlungeT = (Math.sin(dipRad) * Math.sin(rakeRad) + Math.cos(dipRad)) / Math.SQRT2;
 
-  const isPureStrikeSlip = absRake <= 30 || absRake >= 150;
-  const isPureNormal = normalizedRake >= -120 && normalizedRake <= -60;
-  const isPureReverse = normalizedRake >= 60 && normalizedRake <= 120;
+  const plungeP = Math.asin(Math.abs(sinPlungeP)) * (180 / Math.PI);
+  const plungeT = Math.asin(Math.abs(sinPlungeT)) * (180 / Math.PI);
 
-  if (isPureStrikeSlip) {
-    return "Strike-Slip";
-  }
-  
-  if (isPureNormal) {
+  if (plungeP > 45 && plungeT < 45) {
     return "Normal";
   }
-  
-  if (isPureReverse) {
+  if (plungeT > 45 && plungeP < 45) {
     return "Reverse / Thrust";
   }
-  
-  if (normalizedRake < 0) {
-    return "Normal-Oblique";
+  if (plungeP < 45 && plungeT < 45) {
+    return "Strike-Slip";
   }
-  
-  return "Reverse-Oblique";
+
+  return fm.rake < 0 ? "Normal-Oblique" : "Reverse-Oblique";
 };
